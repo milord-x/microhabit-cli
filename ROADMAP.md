@@ -3,9 +3,9 @@
 ## Core
 - [x] Project scaffold with Python package layout
 - [x] JSON storage for habit records
-- [ ] Habit creation command
-- [ ] Habit list command
-- [ ] Habit completion (done) command
+- [x] Habit creation command
+- [x] Habit list command
+- [x] Habit completion (done) command
 - [ ] Streak calculation
 - [ ] Basic tests for storage and commands
 

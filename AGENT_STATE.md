@@ -14,11 +14,13 @@ Wire CLI commands to storage module.
 - Added basic import test.
 - Implemented JSON storage module (load, save, add, complete, streak).
 - Added comprehensive storage tests (16 tests).
+- Wired CLI add, list, done commands to storage module.
+- Added 8 CLI tests covering command dispatch and output.
 
 ## Next
-1. Wire CLI add command.
-2. Wire CLI list command.
-3. Wire CLI done command.
+1. Add habit deletion and editing commands.
+2. Add progress summary and stats command.
+3. Add daily reminder notifications.
 
 ## Important Decisions
 - Use Python standard library (argparse, json, pathlib).
@@ -30,10 +32,10 @@ Wire CLI commands to storage module.
 - None
 
 ## Checks
-- Latest tests: 16 passed (pytest)
+- Latest tests: 24 passed (pytest)
 - Latest lint: not configured
 
 ## Last Updated
 2026-05-09
 
-(second run)
+(third run)

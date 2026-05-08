@@ -4,7 +4,7 @@ A terminal habit tracker with streaks, reminders, and local JSON storage.
 
 ## Status
 
-Core features implemented: habit storage, completion tracking, streak calculation.
+Core features implemented: habit storage, completion tracking, streak calculation, CLI commands.
 
 ## Quick Start
 
@@ -33,5 +33,4 @@ The data directory is created automatically on first use.
 
 ## Limitations
 
-- CLI commands are not wired yet (storage module is ready).
 - Single-user, local only.
