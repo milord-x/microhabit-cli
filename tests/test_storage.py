@@ -9,7 +9,10 @@ from microhabit.storage import (
     save_habits,
     add_habit,
     complete_habit,
+    get_stats,
     get_streak,
+    remove_habit,
+    rename_habit,
 )
 
 
@@ -128,3 +131,63 @@ def test_get_streak_old_date_returns_zero():
     old = (date.today() - timedelta(days=5)).isoformat()
     habit = {"name": "test", "created_at": "2026-05-01", "completed_dates": [old]}
     assert get_streak(habit) == 0
+
+
+def test_remove_habit(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        add_habit("read")
+        result = remove_habit("read")
+        assert result is not None
+        assert result["name"] == "read"
+        assert load_habits() == []
+
+
+def test_remove_nonexistent_habit_returns_none(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        result = remove_habit("nonexistent")
+        assert result is None
+
+
+def test_rename_habit(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        add_habit("read")
+        result = rename_habit("read", "reading")
+        assert result is not None
+        assert result["name"] == "reading"
+        habits = load_habits()
+        assert len(habits) == 1
+        assert habits[0]["name"] == "reading"
+
+
+def test_rename_habit_to_existing_name_returns_none(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        add_habit("read")
+        add_habit("code")
+        result = rename_habit("read", "code")
+        assert result is None
+        habits = load_habits()
+        assert len(habits) == 2
+
+
+def test_rename_nonexistent_habit_returns_none(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        result = rename_habit("nonexistent", "something")
+        assert result is None
+
+
+def test_get_stats_empty(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        stats = get_stats()
+        assert stats["total_habits"] == 0
+        assert stats["total_completions"] == 0
+        assert stats["longest_streak"] == 0
+
+
+def test_get_stats_with_data(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        add_habit("read")
+        add_habit("code")
+        stats = get_stats()
+        assert stats["total_habits"] == 2
+        assert stats["total_completions"] == 0
+        assert stats["longest_streak"] == 0

@@ -88,6 +88,119 @@ def test_list_empty(capsys):
             assert "No habits found" in captured.out
 
 
+def test_parser_has_remove_subcommand():
+    parser = build_parser()
+    subs = {
+        a.dest: a for a in parser._subparsers._actions if hasattr(a, "_name_parser_map")
+    }
+    remove_action = subs["command"]
+    assert "remove" in remove_action._name_parser_map
+
+
+def test_parser_has_rename_subcommand():
+    parser = build_parser()
+    subs = {
+        a.dest: a for a in parser._subparsers._actions if hasattr(a, "_name_parser_map")
+    }
+    rename_action = subs["command"]
+    assert "rename" in rename_action._name_parser_map
+
+
+def test_parser_has_stats_subcommand():
+    parser = build_parser()
+    subs = {
+        a.dest: a for a in parser._subparsers._actions if hasattr(a, "_name_parser_map")
+    }
+    stats_action = subs["command"]
+    assert "stats" in stats_action._name_parser_map
+
+
+def test_remove_habit_via_cli(capsys):
+    with patch("microhabit.cli.remove_habit") as mock_remove:
+        mock_remove.return_value = {
+            "name": "read",
+            "created_at": "2026-05-01",
+            "completed_dates": [],
+        }
+        with patch("sys.argv", ["microhabit", "remove", "read"]):
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 0
+            assert "Habit removed: read" in captured.out
+
+
+def test_remove_nonexistent_via_cli(capsys):
+    with patch("microhabit.cli.remove_habit") as mock_remove:
+        mock_remove.return_value = None
+        with patch("sys.argv", ["microhabit", "remove", "read"]):
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 1
+            assert "not found" in captured.out
+
+
+def test_rename_habit_via_cli(capsys):
+    with patch("microhabit.cli.rename_habit") as mock_rename:
+        mock_rename.return_value = {
+            "name": "reading",
+            "created_at": "2026-05-01",
+            "completed_dates": [],
+        }
+        with patch("sys.argv", ["microhabit", "rename", "read", "reading"]):
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 0
+            assert "Habit renamed: read -> reading" in captured.out
+
+
+def test_rename_nonexistent_via_cli(capsys):
+    with patch("microhabit.cli.rename_habit") as mock_rename:
+        mock_rename.return_value = None
+        mock_rename.side_effect = None
+        with (
+            patch("microhabit.cli.load_habits") as mock_load,
+            patch("sys.argv", ["microhabit", "rename", "read", "reading"]),
+        ):
+            mock_load.return_value = []
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 1
+            assert "not found" in captured.out
+
+
+def test_rename_to_existing_via_cli(capsys):
+    with patch("microhabit.cli.rename_habit") as mock_rename:
+        mock_rename.return_value = None
+        with (
+            patch("microhabit.cli.load_habits") as mock_load,
+            patch("sys.argv", ["microhabit", "rename", "read", "code"]),
+        ):
+            mock_load.return_value = [
+                {"name": "read", "created_at": "2026-05-01", "completed_dates": []},
+                {"name": "code", "created_at": "2026-05-01", "completed_dates": []},
+            ]
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 1
+            assert "already exists" in captured.out
+
+
+def test_stats_via_cli(capsys):
+    with patch("microhabit.cli.get_stats") as mock_stats:
+        mock_stats.return_value = {
+            "total_habits": 3,
+            "total_completions": 7,
+            "longest_streak": 5,
+        }
+        with patch("sys.argv", ["microhabit", "stats"]):
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 0
+            assert "Total habits: 3" in captured.out
+            assert "Total completions: 7" in captured.out
+            assert "Longest streak: 5" in captured.out
+
+
 def test_list_with_habits(capsys):
     habits = [
         {"name": "read", "created_at": "2026-05-01", "completed_dates": ["2026-05-09"]},

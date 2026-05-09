@@ -6,13 +6,13 @@
 - [x] Habit creation command
 - [x] Habit list command
 - [x] Habit completion (done) command
-- [ ] Streak calculation
-- [ ] Basic tests for storage and commands
+- [x] Streak calculation
+- [x] Basic tests for storage and commands
 
 ## Next
-- [ ] Command to delete habits
-- [ ] Edit existing habits
-- [ ] Progress summary and stats
+- [x] Command to delete habits
+- [x] Edit existing habits
+- [x] Progress summary and stats
 - [ ] Daily reminder notifications (via terminal)
 
 ## Later

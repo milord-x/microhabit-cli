@@ -60,6 +60,44 @@ def complete_habit(name: str) -> dict | None:
     return None
 
 
+def remove_habit(name: str) -> dict | None:
+    habits = load_habits()
+    for i, h in enumerate(habits):
+        if h["name"] == name:
+            removed = habits.pop(i)
+            save_habits(habits)
+            return removed
+    return None
+
+
+def rename_habit(old_name: str, new_name: str) -> dict | None:
+    habits = load_habits()
+    if any(h["name"] == new_name for h in habits):
+        return None
+    for h in habits:
+        if h["name"] == old_name:
+            h["name"] = new_name
+            save_habits(habits)
+            return h
+    return None
+
+
+def get_stats() -> dict:
+    habits = load_habits()
+    total = len(habits)
+    total_completions = sum(len(h.get("completed_dates", [])) for h in habits)
+    longest = 0
+    for h in habits:
+        s = get_streak(h)
+        if s > longest:
+            longest = s
+    return {
+        "total_habits": total,
+        "total_completions": total_completions,
+        "longest_streak": longest,
+    }
+
+
 def get_streak(habit: dict) -> int:
     dates = sorted(set(habit.get("completed_dates", [])), reverse=True)
     if not dates:

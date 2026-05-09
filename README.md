@@ -24,6 +24,9 @@ microhabit --help
 microhabit add "read 20 pages"
 microhabit done "read 20 pages"
 microhabit list
+microhabit remove "read 20 pages"
+microhabit rename "read 20 pages" "read 30 pages"
+microhabit stats
 ```
 
 ## Storage

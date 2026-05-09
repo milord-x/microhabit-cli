@@ -10,3 +10,11 @@
 - Wired CLI add, list, done commands to storage module.
 - Added 8 tests covering CLI command dispatch and output.
 - Updated README to reflect working CLI commands.
+
+## 2026-05-09 (run 4)
+
+- Added remove_habit, rename_habit, get_stats to storage module.
+- Added remove, rename, stats CLI commands.
+- Added 8 storage tests for new functions.
+- Added 8 CLI tests for new commands.
+- All 41 tests pass.
