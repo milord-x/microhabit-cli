@@ -5,6 +5,7 @@ import json
 import tempfile
 
 from microhabit.storage import (
+    get_habits_by_category,
     load_habits,
     save_habits,
     add_habit,
@@ -13,6 +14,8 @@ from microhabit.storage import (
     get_streak,
     remove_habit,
     rename_habit,
+    set_category,
+    set_tags,
 )
 
 
@@ -172,6 +175,91 @@ def test_rename_habit_to_existing_name_returns_none(tmp_path: Path):
 def test_rename_nonexistent_habit_returns_none(tmp_path: Path):
     with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
         result = rename_habit("nonexistent", "something")
+        assert result is None
+
+
+def test_add_habit_with_category(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        result = add_habit("read", category="health")
+        assert result is not None
+        assert result["name"] == "read"
+        assert result["category"] == "health"
+
+
+def test_add_habit_with_tags(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        result = add_habit("read", tags=["morning", "books"])
+        assert result is not None
+        assert result["tags"] == ["morning", "books"]
+
+
+def test_add_habit_with_category_and_tags(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        result = add_habit("read", category="health", tags=["morning"])
+        assert result is not None
+        assert result["category"] == "health"
+        assert result["tags"] == ["morning"]
+        saved = load_habits()
+        assert saved[0]["category"] == "health"
+        assert saved[0]["tags"] == ["morning"]
+
+
+def test_get_habits_by_category(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        add_habit("read", category="health")
+        add_habit("code", category="work")
+        add_habit("meditate", category="health")
+        habits = load_habits()
+        health = get_habits_by_category(habits, "health")
+        assert len(health) == 2
+        assert all(h["category"] == "health" for h in health)
+
+
+def test_get_habits_by_category_empty_when_no_match(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        add_habit("read", category="health")
+        habits = load_habits()
+        result = get_habits_by_category(habits, "fitness")
+        assert result == []
+
+
+def test_get_habits_by_category_skips_missing_category(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        add_habit("read")
+        habits = load_habits()
+        result = get_habits_by_category(habits, "health")
+        assert result == []
+
+
+def test_set_category(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        add_habit("read")
+        result = set_category("read", "health")
+        assert result is not None
+        assert result["category"] == "health"
+        saved = load_habits()
+        assert saved[0]["category"] == "health"
+
+
+def test_set_category_nonexistent_returns_none(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        result = set_category("nonexistent", "health")
+        assert result is None
+
+
+def test_set_tags(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        add_habit("read")
+        result = set_tags("read", ["morning", "books"])
+        assert result is not None
+        assert result["tags"] == ["morning", "books"]
+        saved = load_habits()
+        assert saved[0]["tags"] == ["morning", "books"]
+
+
+def test_set_tags_nonexistent_returns_none(tmp_path: Path):
+    with patch("microhabit.storage.HABIT_FILE", _test_path(tmp_path)):
+        result = set_tags("nonexistent", ["tag"])
         assert result is None
 
 

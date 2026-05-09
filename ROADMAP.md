@@ -14,9 +14,9 @@
 - [x] Edit existing habits
 - [x] Progress summary and stats
 - [x] Daily reminder notifications (via terminal)
+- [x] Habit categories and tags
 
 ## Later
-- [ ] Habit categories and tags
 - [ ] Export to CSV/JSON
 - [ ] Configurable storage path
 - [ ] Colorized terminal output

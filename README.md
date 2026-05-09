@@ -22,11 +22,15 @@ microhabit --help
 ```bash
 microhabit --help
 microhabit add "read 20 pages"
+microhabit add "meditate" --category health --tags morning
 microhabit done "read 20 pages"
 microhabit list
+microhabit list --category health
 microhabit remove "read 20 pages"
 microhabit rename "read 20 pages" "read 30 pages"
 microhabit stats
+microhabit set-category "read 20 pages" learning
+microhabit set-tags "read 20 pages" evening
 ```
 
 ## Reminders

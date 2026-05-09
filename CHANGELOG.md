@@ -25,3 +25,12 @@
 - Integrated reminders into CLI entry point.
 - Added 7 notification tests.
 - All 48 tests pass.
+
+## 2026-05-09 (run 6)
+
+- Added optional category and tags fields to habit creation.
+- Added --category and --tags options to add command.
+- Added --category filter to list command.
+- Added set-category and set-tags CLI commands.
+- Added 12 storage tests and 5 CLI tests.
+- All 65 tests pass.

@@ -222,3 +222,96 @@ def test_list_with_habits(capsys):
             assert "code" in captured.out
             assert "streak: 0" in captured.out
             assert "completions: 0" in captured.out
+
+
+def test_add_with_category_via_cli(capsys):
+    with patch("microhabit.cli.add_habit") as mock_add:
+        mock_add.return_value = {
+            "name": "read",
+            "created_at": "2026-05-09",
+            "completed_dates": [],
+            "category": "health",
+        }
+        with patch("sys.argv", ["microhabit", "add", "read", "--category", "health"]):
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 0
+            assert "category: health" in captured.out
+
+
+def test_add_with_tags_via_cli(capsys):
+    with patch("microhabit.cli.add_habit") as mock_add:
+        mock_add.return_value = {
+            "name": "read",
+            "created_at": "2026-05-09",
+            "completed_dates": [],
+            "tags": ["morning", "books"],
+        }
+        with patch(
+            "sys.argv", ["microhabit", "add", "read", "--tags", "morning", "books"]
+        ):
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 0
+            assert "tags: morning, books" in captured.out
+
+
+def test_list_with_category_filter(capsys):
+    habits = [
+        {
+            "name": "read",
+            "created_at": "2026-05-01",
+            "completed_dates": [],
+            "category": "health",
+        },
+    ]
+    with (
+        patch("microhabit.cli.load_habits") as mock_load,
+        patch("microhabit.cli.get_streak") as mock_streak,
+        patch("sys.argv", ["microhabit", "list", "--category", "health"]),
+    ):
+        mock_load.return_value = habits
+        mock_streak.return_value = 0
+        result = main()
+        captured = capsys.readouterr()
+        assert result == 0
+        assert "read" in captured.out
+        assert "category: health" in captured.out
+
+
+def test_parser_has_set_category_subcommand():
+    parser = build_parser()
+    subs = {
+        a.dest: a for a in parser._subparsers._actions if hasattr(a, "_name_parser_map")
+    }
+    setcat_action = subs["command"]
+    assert "set-category" in setcat_action._name_parser_map
+
+
+def test_parser_has_set_tags_subcommand():
+    parser = build_parser()
+    subs = {
+        a.dest: a for a in parser._subparsers._actions if hasattr(a, "_name_parser_map")
+    }
+    settag_action = subs["command"]
+    assert "set-tags" in settag_action._name_parser_map
+
+
+def test_set_category_via_cli(capsys):
+    with patch("microhabit.cli.set_category") as mock_set:
+        mock_set.return_value = {"name": "read", "category": "health"}
+        with patch("sys.argv", ["microhabit", "set-category", "read", "health"]):
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 0
+            assert "Category set: read -> health" in captured.out
+
+
+def test_set_tags_via_cli(capsys):
+    with patch("microhabit.cli.set_tags") as mock_set:
+        mock_set.return_value = {"name": "read", "tags": ["morning"]}
+        with patch("sys.argv", ["microhabit", "set-tags", "read", "morning"]):
+            result = main()
+            captured = capsys.readouterr()
+            assert result == 0
+            assert "Tags set: read -> morning" in captured.out

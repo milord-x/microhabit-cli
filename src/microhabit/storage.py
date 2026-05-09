@@ -33,7 +33,9 @@ def save_habits(habits: list[dict]) -> None:
     path.write_text(json.dumps(habits, indent=2), encoding="utf-8")
 
 
-def add_habit(name: str) -> dict | None:
+def add_habit(
+    name: str, category: str | None = None, tags: list[str] | None = None
+) -> dict | None:
     habits = load_habits()
     if any(h["name"] == name for h in habits):
         return None
@@ -43,6 +45,10 @@ def add_habit(name: str) -> dict | None:
         "created_at": today_str,
         "completed_dates": [],
     }
+    if category is not None:
+        habit["category"] = category
+    if tags is not None:
+        habit["tags"] = tags
     habits.append(habit)
     save_habits(habits)
     return habit
@@ -77,6 +83,30 @@ def rename_habit(old_name: str, new_name: str) -> dict | None:
     for h in habits:
         if h["name"] == old_name:
             h["name"] = new_name
+            save_habits(habits)
+            return h
+    return None
+
+
+def get_habits_by_category(habits: list[dict], category: str) -> list[dict]:
+    return [h for h in habits if h.get("category") == category]
+
+
+def set_category(name: str, category: str) -> dict | None:
+    habits = load_habits()
+    for h in habits:
+        if h["name"] == name:
+            h["category"] = category
+            save_habits(habits)
+            return h
+    return None
+
+
+def set_tags(name: str, tags: list[str]) -> dict | None:
+    habits = load_habits()
+    for h in habits:
+        if h["name"] == name:
+            h["tags"] = tags
             save_habits(habits)
             return h
     return None

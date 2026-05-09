@@ -4,7 +4,7 @@
 Active
 
 ## Current Goal
-Add daily reminder notifications via terminal.
+Add habit categories and tags.
 
 ## Done
 - Created project directory structure.
@@ -22,12 +22,17 @@ Add daily reminder notifications via terminal.
 - Added notifications module with get_habits_due_today and show_reminders.
 - Integrated reminders into CLI entry point.
 - Added 7 notification tests.
-- All 48 tests pass.
+- Added category/tag support to storage module (optional fields on habits).
+- Added --category/--tags to add command.
+- Added --category filter to list command.
+- Added set-category and set-tags CLI commands.
+- Added 12 storage tests and 5 CLI tests for category/tag features.
+- All 65 tests pass.
 
 ## Next
-1. Add habit categories and tags.
-2. Colorized terminal output.
-3. Export to CSV/JSON.
+1. Colorized terminal output.
+2. Export to CSV/JSON.
+3. Configurable storage path.
 
 ## Important Decisions
 - Use Python standard library (argparse, json, pathlib).
@@ -39,10 +44,10 @@ Add daily reminder notifications via terminal.
 - None
 
 ## Checks
-- Latest tests: 48 passed (pytest)
+- Latest tests: 65 passed (pytest)
 - Latest lint: not configured
 
 ## Last Updated
 2026-05-09
 
-(fifth run)
+(sixth run)
