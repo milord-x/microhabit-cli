@@ -29,6 +29,11 @@ microhabit rename "read 20 pages" "read 30 pages"
 microhabit stats
 ```
 
+## Reminders
+
+Each time you run `microhabit`, it checks which habits are not yet completed today
+and prints a reminder if any are due.
+
 ## Storage
 
 Habits are stored in `~/.microhabit/habits.json` as a JSON file.

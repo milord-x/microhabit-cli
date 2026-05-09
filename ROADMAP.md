@@ -13,7 +13,7 @@
 - [x] Command to delete habits
 - [x] Edit existing habits
 - [x] Progress summary and stats
-- [ ] Daily reminder notifications (via terminal)
+- [x] Daily reminder notifications (via terminal)
 
 ## Later
 - [ ] Habit categories and tags

@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+from microhabit.notifications import show_reminders
 from microhabit.storage import (
     add_habit,
     complete_habit,
@@ -107,6 +108,7 @@ def _cmd_stats(args: argparse.Namespace) -> int:
 
 
 def main() -> int:
+    show_reminders()
     parser = build_parser()
     args = parser.parse_args()
     return args.func(args)

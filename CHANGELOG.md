@@ -18,3 +18,10 @@
 - Added 8 storage tests for new functions.
 - Added 8 CLI tests for new commands.
 - All 41 tests pass.
+
+## 2026-05-09 (run 5)
+
+- Added notifications module with daily reminder logic.
+- Integrated reminders into CLI entry point.
+- Added 7 notification tests.
+- All 48 tests pass.

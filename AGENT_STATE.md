@@ -4,7 +4,7 @@
 Active
 
 ## Current Goal
-Add habit deletion, editing, and stats commands.
+Add daily reminder notifications via terminal.
 
 ## Done
 - Created project directory structure.
@@ -19,12 +19,15 @@ Add habit deletion, editing, and stats commands.
 - Added remove_habit, rename_habit, get_stats to storage module.
 - Added remove, rename, stats CLI commands.
 - Added 8 storage tests and 8 CLI tests for new functions.
-- All 41 tests pass.
+- Added notifications module with get_habits_due_today and show_reminders.
+- Integrated reminders into CLI entry point.
+- Added 7 notification tests.
+- All 48 tests pass.
 
 ## Next
-1. Add daily reminder notifications.
-2. Add habit categories and tags.
-3. Colorized terminal output.
+1. Add habit categories and tags.
+2. Colorized terminal output.
+3. Export to CSV/JSON.
 
 ## Important Decisions
 - Use Python standard library (argparse, json, pathlib).
@@ -36,10 +39,10 @@ Add habit deletion, editing, and stats commands.
 - None
 
 ## Checks
-- Latest tests: 24 passed (pytest)
+- Latest tests: 48 passed (pytest)
 - Latest lint: not configured
 
 ## Last Updated
 2026-05-09
 
-(third run)
+(fifth run)
