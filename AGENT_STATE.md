@@ -4,7 +4,7 @@
 Active
 
 ## Current Goal
-Add export to CSV/JSON.
+Configurable storage path.
 
 ## Done
 - Created project directory structure.
@@ -37,9 +37,12 @@ Add export to CSV/JSON.
 - Added export subcommand with --format (csv|json) and --output flags.
 - Added 6 export tests.
 - All 86 tests pass.
+- Added set_storage_path to storage module.
+- Added --storage-path global CLI flag and MICROHABIT_PATH env var support.
+- All 91 tests pass.
 
 ## Next
-1. Configurable storage path.
+1. (pending next feature)
 
 ## Important Decisions
 - Use Python standard library (argparse, json, pathlib).
@@ -53,10 +56,10 @@ Add export to CSV/JSON.
 - None
 
 ## Checks
-- Latest tests: 79 passed (pytest)
+- Latest tests: 91 passed (pytest)
 - Latest lint: not configured
 
 ## Last Updated
 2026-05-10
 
-(seventh run)
+(ninth run)

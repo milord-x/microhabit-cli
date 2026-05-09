@@ -5,6 +5,11 @@ import json
 HABIT_FILE = Path.home() / ".microhabit" / "habits.json"
 
 
+def set_storage_path(path: str | Path) -> None:
+    global HABIT_FILE
+    HABIT_FILE = Path(path)
+
+
 def _ensure_dir() -> None:
     HABIT_FILE.parent.mkdir(parents=True, exist_ok=True)
 

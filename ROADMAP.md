@@ -17,7 +17,10 @@
 - [x] Habit categories and tags
 
 ## Later
-- [ ] Configurable storage path
+
+
+## Done
+- [x] Configurable storage path
 
 ## Done
 - [x] Colorized terminal output

@@ -1,3 +1,5 @@
+import os
+import sys
 from unittest.mock import patch
 
 from microhabit.cli import build_parser, main
@@ -324,3 +326,46 @@ def test_set_tags_via_cli(capsys):
             captured = capsys.readouterr()
             assert result == 0
             assert "Tags set: read -> morning" in captured.out
+
+
+def test_storage_path_flag_passed_to_storage(capsys):
+    with (
+        patch("microhabit.cli.set_storage_path") as mock_set,
+        patch("microhabit.cli.load_habits", return_value=[]),
+        patch("sys.argv", ["microhabit", "--storage-path", "/tmp/test.json", "list"]),
+    ):
+        main()
+        mock_set.assert_called_once_with("/tmp/test.json")
+
+
+def test_storage_path_flag_removed_from_argv(capsys):
+    with (
+        patch("microhabit.cli.set_storage_path"),
+        patch("microhabit.cli.load_habits", return_value=[]),
+        patch("sys.argv", ["microhabit", "--storage-path", "/tmp/test.json", "list"]),
+    ):
+        main()
+        assert "--storage-path" not in sys.argv
+        assert "/tmp/test.json" not in sys.argv
+
+
+def test_env_var_microhabit_path(capsys):
+    with (
+        patch("microhabit.cli.set_storage_path") as mock_set,
+        patch("microhabit.cli.load_habits", return_value=[]),
+        patch("sys.argv", ["microhabit", "list"]),
+        patch.dict(os.environ, {"MICROHABIT_PATH": "/env/test.json"}),
+    ):
+        main()
+        mock_set.assert_called_once_with("/env/test.json")
+
+
+def test_cli_flag_overrides_env_var(capsys):
+    with (
+        patch("microhabit.cli.set_storage_path") as mock_set,
+        patch("microhabit.cli.load_habits", return_value=[]),
+        patch("sys.argv", ["microhabit", "--storage-path", "/cli/test.json", "list"]),
+        patch.dict(os.environ, {"MICROHABIT_PATH": "/env/test.json"}),
+    ):
+        main()
+        mock_set.assert_called_once_with("/cli/test.json")

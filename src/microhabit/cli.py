@@ -1,5 +1,6 @@
 from pathlib import Path
 import argparse
+import os
 import sys
 
 from microhabit.color import bold, cyan, green, red, yellow
@@ -15,6 +16,7 @@ from microhabit.storage import (
     remove_habit,
     rename_habit,
     set_category,
+    set_storage_path,
     set_tags,
 )
 
@@ -23,6 +25,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="microhabit",
         description="A small terminal habit tracker.",
+    )
+    parser.add_argument(
+        "--storage-path",
+        help="Path to habits JSON file (overrides MICROHABIT_PATH env var)",
     )
     sub = parser.add_subparsers(dest="command")
     sub.required = True
@@ -174,7 +180,33 @@ def _cmd_stats(args: argparse.Namespace) -> int:
     return 0
 
 
+def _resolve_storage_path_early() -> None:
+    argv = sys.argv[1:]
+    new_argv = []
+    skip_next = False
+    found_cli_flag = False
+    for i, arg in enumerate(argv):
+        if skip_next:
+            skip_next = False
+            continue
+        if arg == "--storage-path" and i + 1 < len(argv):
+            set_storage_path(argv[i + 1])
+            found_cli_flag = True
+            skip_next = True
+            continue
+        if arg.startswith("--storage-path="):
+            set_storage_path(arg.split("=", 1)[1])
+            found_cli_flag = True
+            continue
+        new_argv.append(arg)
+    env_path = os.environ.get("MICROHABIT_PATH")
+    if env_path and not found_cli_flag:
+        set_storage_path(env_path)
+    sys.argv[:] = [sys.argv[0]] + new_argv
+
+
 def main() -> int:
+    _resolve_storage_path_early()
     show_reminders()
     parser = build_parser()
     args = parser.parse_args()

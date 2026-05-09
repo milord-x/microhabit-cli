@@ -69,6 +69,17 @@ environment variable is set.
 Habits are stored in `~/.microhabit/habits.json` as a JSON file.
 The data directory is created automatically on first use.
 
+The storage path can be customized:
+
+```bash
+microhabit --storage-path /path/to/habits.json list
+# or via environment variable:
+export MICROHABIT_PATH=/path/to/habits.json
+microhabit list
+```
+
+The `--storage-path` flag takes precedence over the `MICROHABIT_PATH` environment variable.
+
 ## Limitations
 
 - Single-user, local only.

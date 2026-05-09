@@ -15,6 +15,7 @@ from microhabit.storage import (
     remove_habit,
     rename_habit,
     set_category,
+    set_storage_path,
     set_tags,
 )
 
@@ -279,3 +280,17 @@ def test_get_stats_with_data(tmp_path: Path):
         assert stats["total_habits"] == 2
         assert stats["total_completions"] == 0
         assert stats["longest_streak"] == 0
+
+
+def test_set_storage_path(tmp_path: Path):
+    new_path = tmp_path / "custom" / "habits.json"
+    original = _test_path(tmp_path)
+    with patch("microhabit.storage.HABIT_FILE", original):
+        set_storage_path(new_path)
+        from microhabit.storage import HABIT_FILE as hf
+
+        assert hf == new_path
+        assert not new_path.exists()
+        add_habit("test")
+        assert new_path.exists()
+        assert load_habits()[0]["name"] == "test"

@@ -51,3 +51,12 @@
 - Added export subcommand with --format (csv|json) and --output flags.
 - Added 6 export tests.
 - All 86 tests pass.
+
+## 2026-05-10 (run 9)
+
+- Added set_storage_path function to storage module.
+- Added --storage-path global CLI flag.
+- Added MICROHABIT_PATH env var support (flag overrides env var).
+- Added 5 tests for configurable storage path.
+- Updated README with storage path customization docs.
+- All 91 tests pass.
