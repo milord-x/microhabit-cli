@@ -4,7 +4,7 @@
 Active
 
 ## Current Goal
-Add colorized terminal output.
+Add export to CSV/JSON.
 
 ## Done
 - Created project directory structure.
@@ -33,10 +33,13 @@ Add colorized terminal output.
 - Color auto-disabled when not a TTY or when NO_COLOR is set.
 - Added 14 color module tests.
 - All 79 tests pass.
+- Added export_habits function to storage module.
+- Added export subcommand with --format (csv|json) and --output flags.
+- Added 6 export tests.
+- All 86 tests pass.
 
 ## Next
-1. Export to CSV/JSON.
-2. Configurable storage path.
+1. Configurable storage path.
 
 ## Important Decisions
 - Use Python standard library (argparse, json, pathlib).

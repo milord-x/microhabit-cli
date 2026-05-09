@@ -17,8 +17,8 @@
 - [x] Habit categories and tags
 
 ## Later
-- [ ] Export to CSV/JSON
 - [ ] Configurable storage path
 
 ## Done
 - [x] Colorized terminal output
+- [x] Export to CSV/JSON

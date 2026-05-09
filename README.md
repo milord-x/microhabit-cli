@@ -38,6 +38,19 @@ microhabit set-tags "read 20 pages" evening
 Each time you run `microhabit`, it checks which habits are not yet completed today
 and prints a colored reminder if any are due.
 
+## Export
+
+Habits can be exported to CSV or JSON:
+
+```bash
+microhabit export                    # JSON to stdout
+microhabit export --format csv       # CSV to stdout
+microhabit export --format json --output habits.json  # JSON to file
+microhabit export --format csv --output habits.csv    # CSV to file
+```
+
+CSV columns: name, category, tags, created_at, streak, completions.
+
 ## Colorized Output
 
 MicroHabit CLI uses ANSI color codes to highlight output in supported terminals:

@@ -128,6 +128,36 @@ def get_stats() -> dict:
     }
 
 
+def export_habits(fmt: str = "json") -> str:
+    import io
+
+    habits = load_habits()
+    if fmt == "json":
+        return json.dumps(habits, indent=2)
+    elif fmt == "csv":
+        import csv
+
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow(
+            ["name", "category", "tags", "created_at", "streak", "completions"]
+        )
+        for h in habits:
+            writer.writerow(
+                [
+                    h["name"],
+                    h.get("category", ""),
+                    ", ".join(h.get("tags", [])),
+                    h.get("created_at", ""),
+                    get_streak(h),
+                    len(h.get("completed_dates", [])),
+                ]
+            )
+        return output.getvalue()
+    else:
+        raise ValueError(f"Unsupported format: {fmt}")
+
+
 def get_streak(habit: dict) -> int:
     dates = sorted(set(habit.get("completed_dates", [])), reverse=True)
     if not dates:

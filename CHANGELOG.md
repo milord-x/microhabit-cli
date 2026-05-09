@@ -44,3 +44,10 @@
 - Color auto-disabled when not a TTY or when NO_COLOR is set.
 - Added 14 color module tests.
 - All 79 tests pass.
+
+## 2026-05-10 (run 8)
+
+- Added export_habits function to storage module.
+- Added export subcommand with --format (csv|json) and --output flags.
+- Added 6 export tests.
+- All 86 tests pass.

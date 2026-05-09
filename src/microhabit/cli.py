@@ -1,3 +1,4 @@
+from pathlib import Path
 import argparse
 import sys
 
@@ -6,6 +7,7 @@ from microhabit.notifications import show_reminders
 from microhabit.storage import (
     add_habit,
     complete_habit,
+    export_habits,
     get_habits_by_category,
     get_stats,
     get_streak,
@@ -55,6 +57,13 @@ def build_parser() -> argparse.ArgumentParser:
     setcat_p.add_argument("name", help="Habit name")
     setcat_p.add_argument("category", help="Category name")
     setcat_p.set_defaults(func=_cmd_set_category)
+
+    export_p = sub.add_parser("export", help="Export habits to CSV or JSON")
+    export_p.add_argument(
+        "--format", choices=["csv", "json"], default="json", help="Output format"
+    )
+    export_p.add_argument("--output", help="Output file path (default: stdout)")
+    export_p.set_defaults(func=_cmd_export)
 
     settag_p = sub.add_parser("set-tags", help="Set habit tags")
     settag_p.add_argument("name", help="Habit name")
@@ -144,6 +153,16 @@ def _cmd_set_tags(args: argparse.Namespace) -> int:
         print(red(f"Habit not found: {args.name}"))
         return 1
     print(f"Tags set: {bold(args.name)} -> {', '.join(args.tags)}")
+    return 0
+
+
+def _cmd_export(args: argparse.Namespace) -> int:
+    data = export_habits(args.format)
+    if args.output:
+        Path(args.output).write_text(data, encoding="utf-8")
+        print(f"Exported to {args.output}")
+    else:
+        print(data, end="")
     return 0
 
 

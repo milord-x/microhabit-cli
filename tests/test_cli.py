@@ -307,6 +307,15 @@ def test_set_category_via_cli(capsys):
             assert "Category set: read -> health" in captured.out
 
 
+def test_parser_has_export_subcommand():
+    parser = build_parser()
+    subs = {
+        a.dest: a for a in parser._subparsers._actions if hasattr(a, "_name_parser_map")
+    }
+    export_action = subs["command"]
+    assert "export" in export_action._name_parser_map
+
+
 def test_set_tags_via_cli(capsys):
     with patch("microhabit.cli.set_tags") as mock_set:
         mock_set.return_value = {"name": "read", "tags": ["morning"]}
