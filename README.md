@@ -36,7 +36,20 @@ microhabit set-tags "read 20 pages" evening
 ## Reminders
 
 Each time you run `microhabit`, it checks which habits are not yet completed today
-and prints a reminder if any are due.
+and prints a colored reminder if any are due.
+
+## Colorized Output
+
+MicroHabit CLI uses ANSI color codes to highlight output in supported terminals:
+
+- **Green** for completed habits and positive stats
+- **Yellow** for reminders
+- **Red** for errors and zero streaks
+- **Cyan** for categories
+- **Bold** for habit names
+
+Color is automatically disabled when output is not a TTY or when the `NO_COLOR`
+environment variable is set.
 
 ## Storage
 

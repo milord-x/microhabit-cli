@@ -34,3 +34,13 @@
 - Added set-category and set-tags CLI commands.
 - Added 12 storage tests and 5 CLI tests.
 - All 65 tests pass.
+
+## 2026-05-10
+
+- Added colorized terminal output using ANSI codes.
+- Created color module with green/red/yellow/cyan/bold helpers.
+- Colors applied to list, stats, done, add, remove, rename, set-category,
+  set-tags commands and reminders.
+- Color auto-disabled when not a TTY or when NO_COLOR is set.
+- Added 14 color module tests.
+- All 79 tests pass.

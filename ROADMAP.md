@@ -19,4 +19,6 @@
 ## Later
 - [ ] Export to CSV/JSON
 - [ ] Configurable storage path
-- [ ] Colorized terminal output
+
+## Done
+- [x] Colorized terminal output

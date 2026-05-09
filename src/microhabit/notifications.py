@@ -1,5 +1,6 @@
 from datetime import date
 
+from microhabit.color import bold, red, yellow
 from microhabit.storage import load_habits
 
 
@@ -17,7 +18,7 @@ def show_reminders() -> int:
     due = get_habits_due_today()
     if not due:
         return 0
-    print(f"Reminder: {len(due)} habit(s) not done today:")
+    print(yellow(f"Reminder: {len(due)} habit(s) not done today:"))
     for h in due:
-        print(f"  - {h['name']}")
+        print(f"  - {red(bold(h['name']))}")
     return 1

@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+from microhabit.color import bold, cyan, green, red, yellow
 from microhabit.notifications import show_reminders
 from microhabit.storage import (
     add_habit,
@@ -66,11 +67,11 @@ def build_parser() -> argparse.ArgumentParser:
 def _cmd_add(args: argparse.Namespace) -> int:
     result = add_habit(args.name, category=args.category, tags=args.tags)
     if result is None:
-        print(f"Habit already exists: {args.name}")
+        print(red(f"Habit already exists: {args.name}"))
         return 1
-    parts = [f"Habit added: {args.name}"]
+    parts = [f"Habit added: {bold(args.name)}"]
     if args.category:
-        parts.append(f"category: {args.category}")
+        parts.append(f"category: {cyan(args.category)}")
     if args.tags:
         parts.append(f"tags: {', '.join(args.tags)}")
     print(" ".join(parts))
@@ -80,9 +81,9 @@ def _cmd_add(args: argparse.Namespace) -> int:
 def _cmd_done(args: argparse.Namespace) -> int:
     result = complete_habit(args.name)
     if result is None:
-        print(f"Habit not found: {args.name}")
+        print(red(f"Habit not found: {args.name}"))
         return 1
-    print(f"Habit marked done: {args.name}")
+    print(green(f"Habit marked done: {bold(args.name)}"))
     return 0
 
 
@@ -96,9 +97,10 @@ def _cmd_list(args: argparse.Namespace) -> int:
     for h in habits:
         streak = get_streak(h)
         count = len(h.get("completed_dates", []))
-        parts = [f"{h['name']} - streak: {streak}, completions: {count}"]
+        streak_str = green(str(streak)) if streak > 0 else red(str(streak))
+        parts = [f"{bold(h['name'])} - streak: {streak_str}, completions: {count}"]
         if h.get("category"):
-            parts.append(f"category: {h['category']}")
+            parts.append(f"category: {cyan(h['category'])}")
         if h.get("tags"):
             parts.append(f"tags: {', '.join(h['tags'])}")
         print(" | ".join(parts))
@@ -108,9 +110,9 @@ def _cmd_list(args: argparse.Namespace) -> int:
 def _cmd_remove(args: argparse.Namespace) -> int:
     result = remove_habit(args.name)
     if result is None:
-        print(f"Habit not found: {args.name}")
+        print(red(f"Habit not found: {args.name}"))
         return 1
-    print(f"Habit removed: {args.name}")
+    print(f"Habit removed: {bold(args.name)}")
     return 0
 
 
@@ -119,37 +121,37 @@ def _cmd_rename(args: argparse.Namespace) -> int:
     if result is None:
         habits = load_habits()
         if any(h["name"] == args.old_name for h in habits):
-            print(f"Habit already exists: {args.new_name}")
+            print(red(f"Habit already exists: {args.new_name}"))
         else:
-            print(f"Habit not found: {args.old_name}")
+            print(red(f"Habit not found: {args.old_name}"))
         return 1
-    print(f"Habit renamed: {args.old_name} -> {args.new_name}")
+    print(f"Habit renamed: {bold(args.old_name)} -> {bold(args.new_name)}")
     return 0
 
 
 def _cmd_set_category(args: argparse.Namespace) -> int:
     result = set_category(args.name, args.category)
     if result is None:
-        print(f"Habit not found: {args.name}")
+        print(red(f"Habit not found: {args.name}"))
         return 1
-    print(f"Category set: {args.name} -> {args.category}")
+    print(f"Category set: {bold(args.name)} -> {cyan(args.category)}")
     return 0
 
 
 def _cmd_set_tags(args: argparse.Namespace) -> int:
     result = set_tags(args.name, args.tags)
     if result is None:
-        print(f"Habit not found: {args.name}")
+        print(red(f"Habit not found: {args.name}"))
         return 1
-    print(f"Tags set: {args.name} -> {', '.join(args.tags)}")
+    print(f"Tags set: {bold(args.name)} -> {', '.join(args.tags)}")
     return 0
 
 
 def _cmd_stats(args: argparse.Namespace) -> int:
     stats = get_stats()
-    print(f"Total habits: {stats['total_habits']}")
-    print(f"Total completions: {stats['total_completions']}")
-    print(f"Longest streak: {stats['longest_streak']}")
+    print(f"Total habits: {green(str(stats['total_habits']))}")
+    print(f"Total completions: {green(str(stats['total_completions']))}")
+    print(f"Longest streak: {green(str(stats['longest_streak']))}")
     return 0
 
 

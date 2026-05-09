@@ -4,7 +4,7 @@
 Active
 
 ## Current Goal
-Add habit categories and tags.
+Add colorized terminal output.
 
 ## Done
 - Created project directory structure.
@@ -28,26 +28,32 @@ Add habit categories and tags.
 - Added set-category and set-tags CLI commands.
 - Added 12 storage tests and 5 CLI tests for category/tag features.
 - All 65 tests pass.
+- Created color module with ANSI color helpers.
+- Colorized list, stats, done, add, remove, rename, set-category, set-tags, and reminders.
+- Color auto-disabled when not a TTY or when NO_COLOR is set.
+- Added 14 color module tests.
+- All 79 tests pass.
 
 ## Next
-1. Colorized terminal output.
-2. Export to CSV/JSON.
-3. Configurable storage path.
+1. Export to CSV/JSON.
+2. Configurable storage path.
 
 ## Important Decisions
 - Use Python standard library (argparse, json, pathlib).
 - Store habits in a local JSON file under `~/.microhabit/`.
 - Keep first version offline-only and single-user.
 - No external dependencies for the initial version.
+- Use ANSI escape codes for color (no external dep).
+- Check NO_COLOR env var and isatty() to disable colors.
 
 ## Known Issues
 - None
 
 ## Checks
-- Latest tests: 65 passed (pytest)
+- Latest tests: 79 passed (pytest)
 - Latest lint: not configured
 
 ## Last Updated
-2026-05-09
+2026-05-10
 
-(sixth run)
+(seventh run)
