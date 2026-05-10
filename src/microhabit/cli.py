@@ -19,6 +19,8 @@ from microhabit.storage import (
     set_storage_path,
     set_tags,
 )
+from microhabit.shell import run_shell
+from microhabit.visuals import render_calendar
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -75,6 +77,15 @@ def build_parser() -> argparse.ArgumentParser:
     settag_p.add_argument("name", help="Habit name")
     settag_p.add_argument("tags", nargs="+", help="Tag values")
     settag_p.set_defaults(func=_cmd_set_tags)
+
+    calendar_p = sub.add_parser("calendar", help="Show habit completion calendar")
+    calendar_p.add_argument(
+        "--days", type=int, default=30, help="Number of days to show (default: 30)"
+    )
+    calendar_p.set_defaults(func=_cmd_calendar)
+
+    shell_p = sub.add_parser("shell", help="Start interactive shell mode")
+    shell_p.set_defaults(func=_cmd_shell)
 
     return parser
 
@@ -177,6 +188,17 @@ def _cmd_stats(args: argparse.Namespace) -> int:
     print(f"Total habits: {green(str(stats['total_habits']))}")
     print(f"Total completions: {green(str(stats['total_completions']))}")
     print(f"Longest streak: {green(str(stats['longest_streak']))}")
+    return 0
+
+
+def _cmd_calendar(args: argparse.Namespace) -> int:
+    calendar = render_calendar(days=args.days)
+    print(calendar)
+    return 0
+
+
+def _cmd_shell(args: argparse.Namespace) -> int:
+    run_shell()
     return 0
 
 

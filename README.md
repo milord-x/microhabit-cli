@@ -51,6 +51,17 @@ microhabit export --format csv --output habits.csv    # CSV to file
 
 CSV columns: name, category, tags, created_at, streak, completions.
 
+## Calendar
+
+Visualize habit completion history as a colorized calendar grid:
+
+```bash
+microhabit calendar                  # Last 30 days
+microhabit calendar --days 7         # Last 7 days
+```
+
+Each habit is a row. Green blocks are completed days, dim blocks are missed days. Streak count is shown per habit.
+
 ## Colorized Output
 
 MicroHabit CLI uses ANSI color codes to highlight output in supported terminals:

@@ -60,3 +60,21 @@
 - Added 5 tests for configurable storage path.
 - Updated README with storage path customization docs.
 - All 91 tests pass.
+
+## 2026-05-10 (run 10)
+
+- Created visuals module with habit calendar visualization.
+- Added calendar CLI subcommand with --days flag.
+- Added 4 tests for calendar rendering.
+- Fixed pyproject.toml build backend config.
+- All 95 tests pass.
+
+## 2026-05-10 (run 11)
+
+- Created shell module with interactive loop and readline tab completion.
+- All commands supported in interactive mode (add, done, list, remove, rename,
+  stats, set-category, set-tags, export, calendar, help, exit, quit).
+- Added shell CLI subcommand.
+- Added 24 tests for shell handlers.
+- Updated ROADMAP: interactive shell moved to Done.
+- All 119 tests pass.

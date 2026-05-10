@@ -17,11 +17,12 @@
 - [x] Habit categories and tags
 
 ## Later
-
+- [ ] Backup/restore functionality
+- [ ] Progress charts and graphs
 
 ## Done
 - [x] Configurable storage path
-
-## Done
 - [x] Colorized terminal output
 - [x] Export to CSV/JSON
+- [x] Calendar visualization (habit completion grid)
+- [x] Interactive shell mode with tab completion

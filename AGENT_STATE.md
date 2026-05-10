@@ -4,7 +4,7 @@
 Active
 
 ## Current Goal
-Configurable storage path.
+Interactive shell mode implemented.
 
 ## Done
 - Created project directory structure.
@@ -40,9 +40,18 @@ Configurable storage path.
 - Added set_storage_path to storage module.
 - Added --storage-path global CLI flag and MICROHABIT_PATH env var support.
 - All 91 tests pass.
+- Created visuals module with habit calendar rendering.
+- Added calendar CLI subcommand with --days flag.
+- All 95 tests pass.
+- Created shell module with interactive loop and tab completion.
+- Added shell CLI subcommand.
+- Added 24 shell handler tests.
+- All 119 tests pass.
 
 ## Next
-1. (pending next feature)
+1. Backup/restore functionality
+2. Habit progress charts/graphs
+3. Habit archival/archiving
 
 ## Important Decisions
 - Use Python standard library (argparse, json, pathlib).
@@ -56,10 +65,10 @@ Configurable storage path.
 - None
 
 ## Checks
-- Latest tests: 91 passed (pytest)
+- Latest tests: 119 passed (pytest)
 - Latest lint: not configured
 
 ## Last Updated
 2026-05-10
 
-(ninth run)
+(eleventh run)
